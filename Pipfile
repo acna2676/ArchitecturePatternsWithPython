@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 sqlalchemy = "*"
+flask = "*"
+psycopg2-binary = "*"
+requests = "*"
+allocation = {editable = true, path = "./src"}
 
 [dev-packages]
 pytest = "*"
