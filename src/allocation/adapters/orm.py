@@ -1,6 +1,6 @@
 from allocation.domain import model
 from sqlalchemy import (Column, Date, ForeignKey, Integer, MetaData, String,
-                        Table)
+                        Table, event)
 from sqlalchemy.orm import mapper, relationship
 
 metadata = MetaData()
@@ -54,5 +54,12 @@ def start_mappers():
         },
     )
     mapper(
-        model.Product, products, properties={"batches": relationship(batches_mapper)}
+        model.Product,
+        products,
+        properties={"batches": relationship(batches_mapper)},
     )
+
+
+@event.listens_for(model.Product, "load")  # FIXME Why is it neccessary ?
+def receive_load(product, _):
+    product.events = []
