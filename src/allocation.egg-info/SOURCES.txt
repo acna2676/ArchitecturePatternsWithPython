@@ -1,6 +1,5 @@
 pyproject.toml
 setup.py
-allocation/__init__.py
 allocation/config.py
 allocation.egg-info/PKG-INFO
 allocation.egg-info/SOURCES.txt
