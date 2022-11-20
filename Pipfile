@@ -10,6 +10,8 @@ psycopg2-binary = "*"
 requests = "*"
 allocation = {editable = true, path = "./src"}
 colorama = "*"
+tenacity = "*"
+redis = "*"
 
 [dev-packages]
 pytest = "*"
