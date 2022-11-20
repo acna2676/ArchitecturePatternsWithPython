@@ -54,16 +54,19 @@ class TestAddBatch:
         assert "b2" in [b.reference for b in uow.products.get("GARISH-RUG").batches]
 
 
+@pytest.fixture(autouse=True)
+def fake_redis_publish():
+    with mock.patch("allocation.adapters.redis_eventpublisher.publish"):
+        yield
+
+
 class TestAllocate:
     def test_allocates(self):
         uow = FakeUnitOfWork()
         messagebus.handle(
             commands.CreateBatch("batch1", "COMPLICATED-LAMP", 100, None), uow
         )
-        results = messagebus.handle(
-            commands.Allocate("o1", "COMPLICATED-LAMP", 10), uow
-        )
-        assert results.pop(0) == "batch1"
+        messagebus.handle(commands.Allocate("o1", "COMPLICATED-LAMP", 10), uow)
         [batch] = uow.products.get("COMPLICATED-LAMP").batches
         assert batch.available_quantity == 90
 
